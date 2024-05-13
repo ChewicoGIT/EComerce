@@ -1,0 +1,507 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="https://firebasestorage.googleapis.com/v0/b/unbreakable-ties.appspot.com/o/images%2Fnavicon.png?alt=media&token=ea7c0c60-ffa8-4f92-9c37-e70249276cc8" type="image/png">
+    <title>Pkmn Unbreakable Ties</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+      crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase-firestore.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap"> 
+    <script src="https://kit.fontawesome.com/1834a6f109.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://kit.fontawesome.com/1834a6f109.css" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="style.css">
+	</head>
+
+<body>
+    <!-- navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top border-bottom border-info border-opacity-50">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+          <img class="logotipo" src="https://firebasestorage.googleapis.com/v0/b/unbreakable-ties.appspot.com/o/images%2Fmainlogo_modificado.png?alt=media&token=9d162a0f-a5f5-4786-910f-3fb888b44153">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item mx-3 fs-4">
+              <a class="nav-link link-primary" aria-current="page" href="">
+                Principal
+              </a>
+            </li>
+            <li class="nav-item mx-3 fs-4">
+              <a class="nav-link" aria-current="page" href="el_juego.html">
+                El juego
+              </a>
+            </li>
+            <li class="nav-item mx-3 fs-4">
+              <a class="nav-link" aria-current="page" href=" ">
+                Foro
+              </a>
+            </li>
+            <li class="nav-item mx-3 fs-4">
+              <a class="nav-link" aria-current="page" href=" ">
+                FAQs
+              </a>
+            </li>
+            <li class="nav-item mx-3 fs-4">
+              <a class="nav-link" aria-current="page" href=" ">
+                Descargar
+              </a>
+            </li>
+          </ul>
+
+		  <!-- Registrado? -->
+		  <button type="button" class="btn btn-primary mx-2" style="display: none;" id="publicaciones">Crear publicación</button>
+
+		  <!-- Registrado? -->
+		  <button type="button" class="btn btn-primary mx-2" style="display: none;" id="registred">Cerrar sesión</button>
+
+		<!-- Buscador -->
+		<button class="btn btn-primary mx-3" type="button" onclick = "filtrar()">
+			<i class="fa-solid fa-magnifying-glass mx-1"></i>
+			Filtrar por
+		</button>
+
+          <!-- Login dropdown  -->
+          <div class="dropdown my-1" id="iniciar_sesion">
+            <button type="button" class="btn btn-info border border-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+              Iniciar sesión
+            </button>
+            <form class="dropdown-menu dropdown-menu-dark dropdown-menu-lg-end p-4" style="width: 250px;">
+              <div class="mb-3">
+                <label for="exampleDropdownFormEmail2" class="form-label">
+                  Usuario
+                </label>
+                <input type="email" class="form-control" id="usuario_god" placeholder="email@ejemplo.com">
+              </div>
+              <div class="mb-3">
+                <label for="exampleDropdownFormPassword2" class="form-label">
+                  Contraseña
+                </label>
+                <input type="password" class="form-control" id="contrasenya_god" placeholder="Ejemplo1234">
+              </div>
+              <div class="mb-3">
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="dropdownCheck2">
+                  <label class="form-check-label" for="dropdownCheck2">
+                    Recuérdame
+                  </label>
+                </div>
+              </div>
+              <button type="button" class="btn btn-primary" id="login_dropdown">
+                Acceder
+              </button>
+              <button type="button" class="btn btn-secondary fs-6 position-absolute end-0 me-4" id="registrar_usuario">
+                Registrar
+              </button>
+            </form>
+          </div>
+
+          <!-- Switch modo diurno/nocturno -->
+          <button class="switch mx-4" id="switch">
+            <span><i class="fa-solid fa-sun"></i></span>
+            <span><i class="fa-solid fa-moon"></i></span>
+          </button>
+
+        </div>
+      </div>
+    </nav>
+    <!-- fin navbar -->
+    <div class="px-3 fw-semibold text-info mainBlock">
+		<div class="col-2">
+			<div id="alert" role="alert"></div>
+		</div>
+	  
+		<div id="listItems">
+			<dialog class = "modal3" id="buscador_god">
+				<!-- Marmi God -->
+				<div style="display: flex">
+					<div style="margin-right:25px; text-align:center;">
+						<p>Nombre de Usuario</p>
+						<div style="display: flex; flex-wrap:wrap; justify-content:center; align-items:center;">
+						<input type="button" onclick="orderAll(1,'usuari')" style="margin-right:10px">
+						A - Z / Z - A
+						<input type="button" onclick="orderAll(1,'usuari', 'desc')" style="margin-left:10px">
+						</div>
+					</div>
+					<div style="margin-right:25px; text-align:center;">
+						<p>Título de Publicación</p>
+						<div style="display: flex; flex-wrap:wrap; justify-content:center; align-items:center;">
+						<input type="button" onclick="orderAll(2,'titol')" style="margin-right:10px">
+						A - Z / Z - A
+						<input type="button" onclick="orderAll(2,'titol', 'desc')" style="margin-left:10px">
+						</div>
+					</div>
+					<div style="margin-right:25px; text-align:center;">
+						<p>Contenido de Publicación</p>
+						<div style="display: flex; flex-wrap:wrap; justify-content:center; align-items:center;">
+						<input type="button" onclick="orderAll(2,'contingut')" style="margin-right:10px">
+						A - Z / Z - A
+						<input type="button" onclick="orderAll(2,'contingut', 'desc')" style="margin-left:10px">
+						</div>
+					</div>
+					<div style="margin-right:25px; text-align:center;">
+						<p>Likes</p>
+						<div style="display: flex; flex-wrap:wrap; justify-content:center; align-items:center;">
+						<input type="button" onclick="orderAll(2,'likes')" style="margin-right:10px">
+						0 - Máx / Máx - 0
+						<input type="button" onclick="orderAll(2,'likes', 'desc')" style="margin-left:10px">
+						</div>
+					</div>
+					<div style="margin-right:25px; text-align:center;">
+						<p>Dislikes</p>
+						<div style="display: flex; flex-wrap:wrap; justify-content:center; align-items:center;">
+						<input type="button" onclick="orderAll(2,'dislikes')" style="margin-right:10px">
+						0 - Máx / Máx - 0
+						<input type="button" onclick="orderAll(2,'dislikes', 'desc')" style="margin-left:10px">
+						</div>
+					</div>
+					<div id="cantidadComentarios" style="margin-right:25px; text-align:center;">
+						<p>Cantidad de comentarios</p>
+						<div style="display: flex; flex-wrap:wrap; justify-content:center; align-items:center;">
+						<input type="button" onclick="orderAll(2,'quantitatComentaris')" style="margin-right:10px">
+						0 - Máx / Máx - 0
+						<input type="button" onclick="orderAll(2,'quantitatComentaris', 'desc')" style="margin-left:10px">
+						</div>
+					</div>
+				</div>
+			</dialog>
+		</div>
+		<div id="ordenar"></div>
+	</div>
+	<!-- popup -->
+	<dialog class = "popup_xD rounded-2" id="modal">
+		<div class="col-8 offset-2 align-items-center" id="signupForm" style="display: none;">
+			<form>
+				<div class="form-group row">
+					<label for="title" class="col-4 col-form-label">Correu electrònic:</label>
+					<div class="col-8">
+						<input type="email" class="form-control" id="signupEmail">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="content" class="col-4 col-form-label">Contrasenya:</label>
+					<div class="col-8">
+						<input type="password" class="form-control" id="signupPassword">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="content" class="col-4 col-form-label">Confirmar contrasenya:</label>
+					<div class="col-8">
+						<input type="password" class="form-control" id="signupPasswordConfirm">
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="offset-4 col-8">
+						<button type="button" id="signup" class="btn btn-primary float-right">Enviar</button>
+						<button type="button" id="close_register" class="btn btn-primary float-right">Cancelar</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</dialog>
+
+	<!-- popup de usuarios registrados -->
+	<dialog class = "popup_publicacion rounded-2" id="publicacion">
+		<div class="col-8 offset-2" id="itemsForm" style="display: none;">
+			<form>
+				<div class="form-group row">
+					<label for="title" class="col-4 col-form-label">Título publicación:</label>
+					<div class="col-8">
+						<input type="text" class="form-control" id="username">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="content" class="col-4 col-form-label">Descripción:</label>
+					<div class="col-8">
+						<input type="text" class="form-control" id="descripcion">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="image" class="col-4 col-form-label">Añadir imagen:</label>
+					<div class="col-6">
+						<input type="file" class="form-control-file mt-3" id="image">
+					</div>
+					<div class="col-2">
+						<img class="rounded" id="thumbnail"
+							style="max-width: 60px; max-height: 60px; visibility: hidden;" alt="imatge">
+					</div>
+				</div>
+				<div class="form-group row mt-3">
+					<div class="offset-4 col-8">
+						<button type="button" id="save" class="btn btn-primary float-right" onclick="guardar()">Guardar</button>
+						<button type="button" id="cancelar" class="btn btn-secondary float-right">Cancelar</button>
+					</div>
+				</div>
+				<input type="hidden" id="elementId">
+			</form>
+		</div>
+	</dialog>
+
+	<div class="container p-5">
+		<div class="row">
+			<div class="col-8 offset-2" id="loginForm" style="display: none;">
+				<form>
+					<div class="form-group row">
+						<label for="title" class="col-4 col-form-label mt-3">Correu electrònic:</label>
+						<div class="col-8">
+							<input type="email" class="form-control mt-3" id="loginEmail">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="content" class="col-4 col-form-label mt-3">Contrasenya:</label>
+						<div class="col-8">
+							<input type="password" class="form-control mt-3" id="loginPassword">
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="offset-4 col-8">
+							<button type="button" id="newUser" class="btn btn-outline-primary float-right mt-3">Registrar un
+								nou usuari</button>
+							<button type="button" id="login" class="btn btn-outline-primary float-right mt-3">Entrar</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	</div>
+	<script src="js/switch.js"></script>
+	<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+	integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+	crossorigin="anonymous">
+  </script>
+</body>
+
+<script language="javascript" src="js/config.js"></script>
+<script language="javascript" src="js/firestore.js"></script>
+<script language="javascript" src="js/storage.js"></script>
+<script language="javascript" src="js/items.js"></script>
+<script language="javascript">
+
+	let imatgeModificada = false;
+
+	function eliminar(itemId, imageUrl) {
+		deleteFile(imageUrl)
+			.then(() => {
+				deleteItem(itemId);
+			}).catch(() => {
+				showAlert("Error al intentar eliminar la imatge", "alert-danger");
+			});
+	}
+
+	function showAlert(text, type) {
+		document.getElementById("alert").innerText = text;
+		document.getElementById("alert").className = "alert " + type;
+		document.getElementById("alert").style.display = "block";
+		window.setTimeout(function () {
+			document.getElementById("alert").style.display = "none";
+		}, 2000);
+	}
+
+	window.addEventListener("load", function () {
+		loadItems();
+	});
+
+	// Iniciar sesión
+	document.getElementById("login_dropdown").addEventListener("click", function () {
+		let email = document.getElementById("usuario_god").value;
+		let password = document.getElementById("contrasenya_god").value;
+
+		auth.signInWithEmailAndPassword(email, password)
+			.then(function () {
+				showAlert("Usuari autenticat", "alert-success");
+
+				document.getElementById("loginForm").style.display = "none";
+				document.getElementById("itemsForm").style.display = "block";
+				document.getElementById("registred").style.display = "block";
+				if (email == "pkmnut@gmail.com") {
+					document.getElementById("publicaciones").style.display = "block";
+				}
+				document.getElementById("iniciar_sesion").style.display = "none";
+			})
+			.catch(function (error) {
+				showAlert("Error d’autenticació", "alert-danger");
+			});
+		//borrar_registro_inicio();
+	});
+	// Cerrar sesión
+
+	document.getElementById("registred").addEventListener("click", function () {
+	firebase.auth().signOut()
+		.then(() => {
+		// Sign-out successful.
+			showAlert("Has salido de tu sesión", "alert-success");
+			document.getElementById("loginForm").style.display = "none";
+			document.getElementById("itemsForm").style.display = "block";
+			document.getElementById("registred").style.display = "none";
+			document.getElementById("iniciar_sesion").style.display = "block";
+			document.getElementById("publicaciones").style.display = "none";
+		})
+		.catch((error) => {
+		// An error happened.
+			showAlert("Error d’autenticació", "alert-danger");
+		});
+	});
+
+
+	document.getElementById("registrar_usuario").addEventListener("click", function () {
+		document.getElementById("loginForm").style.display = "none";
+		document.getElementById("signupForm").style.display = "block";
+	});
+
+	document.getElementById("signup").addEventListener("click", function () {
+		let email = document.getElementById("signupEmail").value;
+		let password = document.getElementById("signupPassword").value;
+		let passwordConfirm = document.getElementById("signupPasswordConfirm").value;
+
+		if (email.length > 0 && email.indexOf("@") > 1) {
+			if (password.length > 0) {
+				if (password == passwordConfirm) {
+					auth.createUserWithEmailAndPassword(email, password)
+						.then(function () {
+							showAlert("Usuari creat correctament", "alert-success");
+							// Cuando se cree el usuario, debes introducir un username, foto y demás.
+							// users.showModal();
+							//document.getElementById("itemsForm").style.display = "block";
+
+						})
+						.catch(function (error) {
+							showAlert("Error al intentar crear l'usuari", "alert-danger");
+						});
+				} else {
+					showAlert("Les contrasenyes no coincideixen", "alert-danger");
+				}
+			} else {
+				showAlert("La contrasenya és obligatòria", "alert-danger");
+			}
+		} else {
+			showAlert("Email incorrecte", "alert-danger");
+		}
+		document.getElementById("loginForm").style.display = "none";
+		document.getElementById("signupForm").style.display = "none";
+		modal.close();
+		borrar_registro();
+	});
+
+	function guardar() {
+		let id = document.getElementById("elementId").value;
+		let title = document.getElementById("username").value;
+		let content = document.getElementById("descripcion").value;
+		let image = document.getElementById("image").files[0];
+		let doc = {
+			contingut: content,
+			titol: title,
+			likes: 0,
+			dislikes: 0,
+			quantitatComentaris: 0
+		};
+
+		if (id == "") {
+			uploadFile(image)
+				.then((imageUrl) => {
+					doc.image = imageUrl;
+					addItem(doc);
+				})
+				.catch(() => {
+					showAlert("Error al intentar guardar l'element", "alert-danger");
+				});
+		} else {
+			if (imatgeModificada) {
+				let currentImageUrl = document.getElementById("thumbnail").src;
+				deleteFile(currentImageUrl)
+					.then(() => {
+						uploadFile(image)
+							.then((imageUrl) => {
+								doc.image = imageUrl;
+								updateItem(id, doc);
+							})
+							.catch(() => {
+								showAlert("Error al intentar actualitzat l'element", "alert-danger");
+							});
+					})
+					.catch(() => {
+						showAlert("Error al intentar actualitzat l'element", "alert-danger");
+					});
+			} else {
+				updateItem(id, doc);
+			}
+		}
+
+		imatgeModificada = false;
+	}
+
+//	document.getElementById("save").addEventListener("click", function () {
+
+
+	document.getElementById("image").addEventListener("change", function () {
+		imatgeModificada = true;
+	});
+
+</script>
+<script language="javascript">
+	// Para usuarios a registrarse
+	const registrarse = document.querySelector("#registrar_usuario");
+	const cerrar_registro = document.querySelector("#close_register");
+	const registro = document.querySelector("#modal");
+
+	// Para usuarios registrados
+	const username = document.querySelector("#users");
+	const descripción = document.querySelector("#users");
+
+	registrar_usuario.addEventListener("click",() => {
+		modal.showModal();
+	})
+	cerrar_registro.addEventListener("click",() =>{
+		modal.close();
+		borrar_registro();
+	})
+
+	function borrar_registro() {
+		document.getElementById("signupEmail").value = "";
+		document.getElementById("signupPassword").value = "";
+		document.getElementById("signupPasswordConfirm").value = "";
+	}
+
+	/*function borrar_registro_inicio() {
+		document.getElementById("usuario_god").value = "";
+		document.getElementById("contrasenya_god").value = "";
+	}*/
+
+	document.getElementById("publicaciones").addEventListener("click", function () {
+		publicacion.showModal();
+	});
+
+	document.getElementById("cancelar").addEventListener("click", function () {
+		publicacion.close();
+	});
+
+	document.getElementById("save").addEventListener("click", function () {
+		publicacion.close();
+	});
+
+	function filtrar() {
+		buscador_god.showModal();
+	}
+
+	function close_filtro() {
+		buscador_god.close();
+	}
+
+</script>
+
+</html>
