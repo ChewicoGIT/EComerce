@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" style="min-height: 100%;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    
+    <title>OmegaDl2</title>
+</head>
+<body style="min-height: 100vh;">
+  <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">OmegaDL2</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarColor02">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link active" href="#">Home
+                <span class="visually-hidden">(current)</span>
+              </a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Categories</a>
+              <div class="dropdown-menu">
+              </div>
+            </li>
+          </ul>
+          <a class="nav-link active text-white me-3" href="#">Login
+          </a>
+          <form class="d-flex">
+            <input class="form-control me-sm-2" type="search" placeholder="Search" onchange="updateImage(this);">
+            <button class="btn btn-secondary my-2 my-sm-0"  type="submit">Search</button>
+          </form>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Codi per cada pagina --> 
+    <div class="container" style="min-height: 100vh;">
+        <div class="row mt-3">
+            <div class="col-6">
+                <img style="width: 100%;" class="ratio ratio-1x1" src="" id="displayImage" />
+            </div>
+            <div class="col-6 " >
+                <form class="mb-5">
+                    <div>
+                        <label for="pName" class="form-label mt-4">Product name</label>
+                        <input type="text" class="form-control" id="pName">
+                      </div>
+                      <div>
+                        <label for="description" class="form-label mt-4">Description</label>
+                        <textarea class="form-control" id="description" rows="3" style="height: 113px;"></textarea>
+                      </div>
+                      <div >
+                        <label for="imgae" class="form-label mt-4">Product image</label>
+                        <input class="form-control" type="file" accept="image/png" id="image">
+                      </div>
+                      
+                    <div class="mt-2">
+                      <label for="category" class="form-label mt-4">Category</label>
+                      <input type="text" class="form-control" id="category">
+                    </div>
+
+                    <div>
+                        <label for="manufacturer" class="form-label mt-4">Manufacturer</label>
+                        <input type="text" class="form-control" id="manufacturer">
+                      </div>
+                      <div class="mt-3">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                      </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <footer class="bg-body-tertiary text-center text-lg-start">
+      <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+        © 2024 Copyright:
+        <a class="text-body" href="#">OmegaDL2.com</a>
+      </div>
+    </footer>
+
+    <script>
+      document.getElementById('image').addEventListener('change', function() {
+
+        var file = this.files[0];
+            console.log('fuck');
+            if (file){
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('displayImage').src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+      });
+    </script>
+
+</body>
+</html>
