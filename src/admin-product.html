@@ -74,7 +74,13 @@
                       
                     <div class="mt-2">
                       <label for="category" class="form-label mt-4">Category</label>
-                      <input type="text" class="form-control" id="category" >
+                      <select name="category" id="category" class="form-select">
+                        <option selected>Selecciona opció</option>
+                        <!-- EXAMPLE <option value="bicicleta">bicicleta</option> -->
+                        <option value="bicicleta">bicicleta</option>
+
+                      </select>
+                      <!-- <input type="text" class="form-control" id="category" > -->
                       <span id="categoryError" style="color: red;"></span>
                     </div>
 
@@ -174,6 +180,8 @@
 
         if (isValid) {
           // alert('Form submitted successfully!');
+
+          add()
         }
 
 
