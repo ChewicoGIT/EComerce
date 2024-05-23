@@ -50,7 +50,37 @@
     <!-- Codi per cada pagina -->
     <div class="container" style="min-height: 100vh;">
 
-
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-6 col-lg-4">
+            <div class="card mt-5">
+              <div class="card-body">
+                <h5 class="card-title text-center">Signup</h5>
+                <form class="m3-5" id="myForm">
+                  <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input type="email" class="form-control" id="email" placeholder="introduce el email">
+                    <span id="emailError" style="color: red;"></span>
+                  </div>
+                  <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="contraseña">
+                    <span id="passwordError" style="color: red;"></span>
+                  </div>
+                  <div class="form-group">
+                    <label for="passwordcheck">Password Check</label>
+                    <input type="password" class="form-control" id="passwordcheck" placeholder="comprueba contraseña">
+                    <span id="passwordcheckError" style="color: red;"></span>
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-block">Signup</button>
+                  <span id="sighnupError" style="color: red;"></span>
+                  <span id="sighnupSuccess" style="color: green;"></span>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
     </div>
 
@@ -61,6 +91,90 @@
         <a class="text-body" href="#">OmegaDL2.com</a>
       </div>
     </footer>
+
+
+    <script>
+      const form = document.getElementById('myForm');
+      const sighnupError = document.getElementById('sighnupError');
+      const sighnupSuccess = document.getElementById('sighnupSuccess');
+      const emailInput = document.getElementById('email');
+      const emailError = document.getElementById('emailError');
+      const passwordInput = document.getElementById('password');
+      const passwordError = document.getElementById('passwordError');
+      const passwordcheckInput = document.getElementById('passwordcheck');
+      const passwordcheckError = document.getElementById('passwordcheckError');
+
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        sighnupError.textContent = '';
+        emailError.textContent = '';
+        passwordError.textContent = '';
+        passwordcheckError.textContent = '';
+        sighnupSuccess.textContent = '';
+        let isValid = true;
+
+        // Check if email input is empty
+        if (emailInput.value === '') {
+          emailError.textContent = 'Please enter your email.';
+          emailInput.classList.add('error');
+          isValid = false;
+        } else {
+          emailError.textContent = '';
+          emailInput.classList.remove('error'); 
+        }
+
+        // Check if password input is empty
+        if (passwordInput.value === '') {
+          passwordError.textContent = 'Please enter your password.';
+          passwordInput.classList.add('error');
+          isValid = false;
+        } else {
+          passwordError.textContent = '';
+          passwordInput.classList.remove('error'); 
+        }
+
+        // Check if passwordcheckInput input is empty
+        if (passwordcheckInput.value === '') {
+          passwordcheckError.textContent = 'Please re-enter your password.';
+          passwordcheckInput.classList.add('error');
+          isValid = false;
+        } else {
+          passwordcheckError.textContent = '';
+          passwordcheckInput.classList.remove('error'); 
+        }
+
+
+        // check passwords are the same
+        if (passwordcheckInput.value != passwordInput.value){
+          isValid = false;
+          sighnupError.textContent = 'PAsswords dont match';
+          sighnupError.classList.add('error');
+        }
+
+        if (isValid) {
+          let email = document.getElementById("email").value;
+          let password = document.getElementById("password").value;
+          let passwordConfirm = document.getElementById("passwordcheck").value;
+
+          if (email.length > 0 && email.indexOf("@") > 1 && password.length > 0) {
+            auth.createUserWithEmailAndPassword(email, password)
+            .then(function() {			
+              sighnupSuccess.textContent = 'Usuari creat correctament';
+
+              window.location.href = "admin-product.html";
+							
+						}).catch(function(error) {
+              sighnupError.textContent = "Error al intentar crear l'usuari"
+							
+						});
+          }
+        } else {
+          sighnupError.textContent = "Error al intentar crear l'usuari"
+        }
+
+      });
+    </script>
 
 </body>
 </html>
