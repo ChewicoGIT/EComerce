@@ -82,8 +82,7 @@
       });
 
       function loadItems(){
-        let id = parseInt(getVariable("id", window),10);
-        //id = "HkIEUDnvNoVGlOOgKsAC";
+        let id = getVariable("id", window);
         selectById(db.collection("Product"), id).then((prod) => {
           console.log(prod.data());
           document.getElementById("name").innerHTML = prod.data().name;

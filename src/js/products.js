@@ -1,6 +1,3 @@
-
-
-    
 function addProduct(name, description, category, manufacturer, price, urlImage){
     let products = db.collection("product");
     var dataToUpload = {

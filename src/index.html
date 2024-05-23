@@ -81,7 +81,7 @@
             items.forEach(prod => {
               console.log(prod.data());
               content += 
-                `<a href="product.html?id=` + prod.data().id + `" class="text-decoration-none col-3 gx-2 gy-2">
+                `<a href="product.html?id=` + prod.id + `" class="text-decoration-none col-3 gx-2 gy-2">
                     <div class="card border-secondary">
                         <div class="card-body">
                             <img src="` + prod.data().urlImage + `" height="100%" width="100%" />
