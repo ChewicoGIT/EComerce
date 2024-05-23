@@ -21,14 +21,14 @@
 <body style="min-height: 100vh;">
   <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">OmegaDL2</a>
+        <a class="navbar-brand" href="index.html">OmegaDL2</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarColor02">
           <ul class="navbar-nav me-auto">
             <li class="nav-item">
-              <a class="nav-link active" href="#">Home
+              <a class="nav-link active" href="index.html">Home
                 <span class="visually-hidden">(current)</span>
               </a>
             </li>
@@ -38,11 +38,11 @@
               </div>
             </li>
           </ul>
-          <a class="nav-link active text-white me-3" href="#">Login
+          <a class="nav-link active text-white me-3" href="login.html">Login
           </a>
           <form class="d-flex">
-            <input class="form-control me-sm-2" type="search" placeholder="Search">
-            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+            <input class="form-control me-sm-2" type="search" placeholder="Search" onchange="updateImage(this);">
+            <button class="btn btn-secondary my-2 my-sm-0"  type="submit">Search</button>
           </form>
         </div>
       </div>
@@ -52,17 +52,21 @@
     <div class="container" style="min-height: 100vh;">
         <div class="row mt-3">
             <div class="col-6">
-                <img style="width: 100%;" src="imgs/bc.jpeg" />
+                <img style="width: 100%;" id="bImg" src="imgs/bc.jpeg" />
             </div>
             <div class="col-6 " >
                 <div style="min-height: 200px;">
                     <h1 class="mt-4" id="name">Product name</h1>
                     <span class="my-2" id="description">Product description...</span>
                 </div>
-                <div class="text-end mt-5"> 
-                    <span class="my-2" id="price">100.00$</span>
-                    <button class="btn btn-secondary">Add to cart</button>
-                    <button class="btn btn-success">Buy</button>
+                <div class=" mt-5">
+                  
+                  <div class="text-end">
+                    <a href="admin-product.html?id=" id="rUrl" class="btn btn-secondary me-auto">Edit(Admin)</a>
+                    <span class="my-2 text-end" id="price">100.00$</span>
+                    <button class="btn btn-secondary text-end">Add to cart</button>
+                    <button class="btn btn-success text-end" >Buy</button>
+                  </div>
                 </div>
             </div>
         </div>
@@ -86,7 +90,8 @@
         selectById(db.collection("Product"), id).then((prod) => {
           console.log(prod.data());
           document.getElementById("name").innerHTML = prod.data().name;
-
+          document.getElementById("bImg").src = prod.data().imgUrl;
+          document.getElementById("rUrl").href += prod.id;
         });
 
       }

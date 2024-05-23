@@ -8,5 +8,24 @@ function getVariable(variable, window) {
       return pair[1];
     }
   } 
-  alert('Query Variable ' + variable + ' not found');
+  return null;
+}
+
+function removeFileFromUrl(window) {
+  // Parse the URL
+  const parsedUrl = window.location.href;
+  
+  // Split the pathname into parts
+  const pathParts = parsedUrl.split('/');
+  
+  // Remove the last part (which is the file name)
+  pathParts.pop();
+  
+  // Reconstruct the pathname
+  const newPathname = pathParts.join('/');
+  console.log (parsedUrl);
+  console.log (pathParts);
+  
+  // Return the modified URL as a string
+  return newPathname;
 }
