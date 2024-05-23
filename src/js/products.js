@@ -2,7 +2,7 @@
 
     
 function addProduct(name, description, category, manufacturer, price, urlImage){
-    let products = db.collection("product");
+    let products = db.collection("Product");
     var dataToUpload = {
         description: description,
         name: name,
