@@ -60,40 +60,37 @@
                 <form class="mb-5" id="myForm">
                   <input type="hidden" id="id" />
                     <div>
-                        <label for="pName" class="form-label mt-4">Product name</label>
+                        <label for="pName" class="form-label mt-2">Product name</label>
                         <input type="text" class="form-control" id="pName" placeholder="Product name" >
                         <span id="pNameError" style="color: red;"></span>
                       </div>
                       <div>
-                        <label for="price" class="form-label mt-4">Price</label>
+                        <label for="price" class="form-label mt-2">Price</label>
                         <input class="form-control" type="text" id="price"></input>
                         <span id="priceError" style="color: red;"></span>
                       </div>
                       <div>
-                        <label for="description" class="form-label mt-4">Description</label>
+                        <label for="description" class="form-label mt-2">Description</label>
                         <textarea class="form-control" id="description" rows="3" style="height: 113px;" ></textarea>
                         <span id="descriptionError" style="color: red;"></span>
                       </div>
                       <div >
-                        <label for="imgae" class="form-label mt-4">Product image</label>
+                        <label for="imgae" class="form-label mt-2">Product image</label>
                         <input class="form-control" type="file" accept="image/png" id="image" >
                         <span id="imageError" style="color: red;"></span>
                       </div>
                       
-                    <div class="mt-2">
-                      <label for="category" class="form-label mt-4">Category</label>
-                      <select name="category" id="category" class="form-select">
-                        <option selected>Selecciona opció</option>
-                        <!-- EXAMPLE <option value="bicicleta">bicicleta</option> -->
-                        <option value="bicicleta">bicicleta</option>
-
-                      </select>
+                    <div class="">
+                      <label for="category" class="form-label mt-2">Category</label>
+                      <input class="form-control" name="category" id="category" type="text">
+                        
+                      </input>
                       <!-- <input type="text" class="form-control" id="category" > -->
                       <span id="categoryError" style="color: red;"></span>
                     </div>
 
                     <div>
-                        <label for="manufacturer" class="form-label mt-4">Manufacturer</label>
+                        <label for="manufacturer" class="form-label mt-2  ">Manufacturer</label>
                         <input type="text" class="form-control" id="manufacturer" >
                         <span id="manufacturerError" style="color: red;"></span>
                       </div>
@@ -242,9 +239,11 @@
             nameInput.value = data.data().name;
             priceInput.value = data.data().price;
             descriptionInput.value = data.data().description;
+            categoryInput.value = data.data().nomCategory;
             manufacturerInput.value = data.data().nomManufacturer;
             document.getElementById('displayImage').src = data.data().imgUrl;
             document.getElementById('cont').innerHTML += '<button id="deleteBtn" class="btn btn-danger me-auto">Remove</a>';
+            document.getElementById('cont').innerHTML += '<a href="admin-product.html" class="btn btn-secondary me-auto">New product</a>';
             document.getElementById('cont').innerHTML += '<a href="product.html?id=' + data.id + '" id="rUrl" class="btn btn-secondary me-auto">See page</a>';
             
             document.getElementById('deleteBtn').addEventListener("click", () => {

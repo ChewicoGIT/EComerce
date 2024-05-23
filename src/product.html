@@ -61,6 +61,7 @@
                 </div>
                 <div class=" mt-5">
                   
+                  <h5 class="my-2" id="mor"></h5>
                   <div class="text-end">
                     <a href="admin-product.html?id=" id="rUrl" class="btn btn-secondary me-auto">Edit(Admin)</a>
                     <span class="my-2 text-end" id="price">100.00$</span>
@@ -92,6 +93,10 @@
           document.getElementById("name").innerHTML = prod.data().name;
           document.getElementById("bImg").src = prod.data().imgUrl;
           document.getElementById("rUrl").href += prod.id;
+          document.getElementById("price").href += prod.data().price;
+          document.getElementById("description").href += prod.data().description;
+          document.getElementById("mor").innerHTML += prod.data().nomCategory + " - " + prod.data().nomManufacturer;
+        
         });
 
       }
