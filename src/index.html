@@ -13,8 +13,8 @@
 
     <script src="js/FirebaseAuth.js"></script>
     <script src="js/products.js"></script>
-    <script src="js/category.js"></script>
-    
+    <script src="js/firestore.js"></script>
+
     <title>OmegaDl2</title>
 </head>
 <body style="min-height: 100vh;">
@@ -66,9 +66,6 @@
       </div>
     </footer>
 
-    <script src="js/FirebaseAuth.js"></script>
-    <script src="js/firestore.js"></script>
-    <script src="js/products.js"></script>
     <script>
         let cardsContainer;
         document.addEventListener("DOMContentLoaded", function(event) {
@@ -79,26 +76,30 @@
         });
 
         function loadProducts(){
-          let content = "";
-          let cardContent = `<a href="#" class="text-decoration-none col-3 gx-2 gy-2">
+          selectAll(db.collection("Product")).then((items) => {
+            let content = "";
+            items.forEach(prod => {
+              console.log(prod.data());
+              content += 
+                `<a href="product.html?id=` + prod.data().id + `" class="text-decoration-none col-3 gx-2 gy-2">
                     <div class="card border-secondary">
                         <div class="card-body">
-                            <img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi5.walmartimages.com%2Fasr%2F03e250d1-4204-4ac8-9e82-4d8aac82e200_1.a1d4bcc05375697b1071f51700281181.jpeg&f=1&nofb=1&ipt=dc3f6a5089204fdbb0558964ffb6aec98c7b67804f986c2f6da454e17d8f2369&ipo=images" height="100%" width="100%" />
+                            <img src="` + prod.data().urlImage + `" height="100%" width="100%" />
                         </div>
                         <div class="row">
                             <div class="col-7">
-                                <div class="card-body">Product name</div>
+                                <div class="card-body">` + prod.data().name + `</div>
                             </div>
                             <div class="col-5">
-                                <div class="card-body text-end">100.30   </div>
+                                <div class="card-body text-end">` + prod.data().price + `</div>
                             </div>
                         </div>
                     </div>
                 </a>`;
-
-          for (let x = 0; x < 30; x++)
-                content += cardContent;
-          cardsContainer.innerHTML = content;
+          
+                cardsContainer.innerHTML = content;
+            });
+          });
 
 
         }

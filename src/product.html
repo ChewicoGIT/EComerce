@@ -12,8 +12,9 @@
 		<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase-firestore.js"></script>
 
     <script src="js/FirebaseAuth.js"></script>
+    <script src="js/firestore.js"></script>
     <script src="js/products.js"></script>
-    <script src="js/category.js"></script>
+    <script src="js/getVars.js"></script>
 
     <title>OmegaDl2</title>
 </head>
@@ -55,11 +56,11 @@
             </div>
             <div class="col-6 " >
                 <div style="min-height: 200px;">
-                    <h1 class="mt-4">Product name</h1>
-                    <span class="my-2">Product description...</span>
+                    <h1 class="mt-4" id="name">Product name</h1>
+                    <span class="my-2" id="description">Product description...</span>
                 </div>
                 <div class="text-end mt-5"> 
-                    <span class="my-2">100.00$</span>
+                    <span class="my-2" id="price">100.00$</span>
                     <button class="btn btn-secondary">Add to cart</button>
                     <button class="btn btn-success">Buy</button>
                 </div>
@@ -74,6 +75,24 @@
         <a class="text-body" href="#">OmegaDL2.com</a>
       </div>
     </footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function(event) {
+        loadItems();
+      });
+
+      function loadItems(){
+        let id = parseInt(getVariable("id", window),10);
+        //id = "HkIEUDnvNoVGlOOgKsAC";
+        selectById(db.collection("Product"), id).then((prod) => {
+          console.log(prod.data());
+          document.getElementById("name").innerHTML = prod.data().name;
+
+        });
+
+      }
+
+    </script>
 
 </body>
 </html>
