@@ -52,17 +52,6 @@ function selectById(collection, id) {
     });
 }
 
-function selectByInternalId(collection, id) {
-    return new Promise((resolve, reject) => {
-        collection.doc(id).get()
-        .then((doc) => {
-            resolve(doc);
-        })
-        .catch(() => {
-            reject();
-        });
-    });
-}
 
 function updateById(collection, id, doc) {
     return new Promise((resolve, reject) => {

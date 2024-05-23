@@ -23,8 +23,6 @@ function removeFileFromUrl(window) {
   
   // Reconstruct the pathname
   const newPathname = pathParts.join('/');
-  console.log (parsedUrl);
-  console.log (pathParts);
   
   // Return the modified URL as a string
   return newPathname;
