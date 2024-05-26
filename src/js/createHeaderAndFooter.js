@@ -1,6 +1,29 @@
 document.addEventListener('DOMContentLoaded', function() {
 
+  // adds heather and foooter 
+  createHeaderAndFooter();
+
+});
+
+// dynamical change login button for user name
+function userOrLogin(){    
+  const loginButton = document.getElementById("user-or-login");
+
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      // User is logged in
+      loginButton.innerHTML = '<p class="nav text-white me-3">' + "<em>Benvingut, </em> &nbsp;"+ " " + user.displayName + '</p>'; 
+    } else {
+      // User is not logged in
+      loginButton.innerHTML = '<a class="nav-link active text-white me-3" href="login.html">Login</a>';
+    }
+  });
+}
+
+
   function createHeaderAndFooter() {
+
+    // add heather
     const headerContainer = document.getElementById("header-container");
   
     if (!headerContainer) {
@@ -15,10 +38,13 @@ document.addEventListener('DOMContentLoaded', function() {
         const parser = new DOMParser();
         const headerElement = parser.parseFromString(htmlContent, "text/html").querySelector("nav.navbar.navbar-expand-lg");
         headerContainer.appendChild(headerElement);
+
+        // add the logn button or name
+        userOrLogin()
       })
       .catch(error => console.error("Error fetching header content:", error));
   
-    // Fetch and append footer content (similar logic)
+    // add footer
     const footerContainer = document.getElementById("footer-container");  // Replace with your footer container ID
   
     if (footerContainer) {
@@ -33,17 +59,9 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
       console.warn("Footer container element not found:", "footer-container");
     }
+
+
   }
-  
-  // Call the function with your container ID (replace with yours)
-  createHeaderAndFooter();
-
-
-
-});
-
-
-
 
 
 
