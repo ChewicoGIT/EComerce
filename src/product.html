@@ -37,10 +37,10 @@
                   
                   <h5 class="my-2" id="mor"></h5>
                   <div class="text-end" id="productOptions">
-                    <a href="admin-product.html?id=" id="rUrl" class="" onclick="return false;" ></a> <!-- For some reason if i delete this it doesn't load the data  -->
+                    <!-- <a href="admin-product.html?id=" id="rUrl" class="" onclick="return false;" ></a> For some reason if i delete this it doesn't load the data  -->
                     <span class="my-2 text-end" id="price"></span>
-                    <button class="btn btn-secondary text-end">Add to cart</button>
-                    <button class="btn btn-success text-end" >Buy</button>
+                    <button class="btn btn-secondary text-end" onclick="addToCart()">Add to cart</button>
+                    <button class="btn btn-success text-end" onclick="window.location.href='buy.html?id=' + getVariable('id', window);" id="rUrl">Buy</button>
                   </div>
                 </div>
             </div>
@@ -52,38 +52,62 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", function(event) {
-      
-
-      firebase.auth().onAuthStateChanged((user) => {
-        if (user) {
-          let contents = document.getElementById("productOptions").innerHTML;
-          //document.getElementById("productOptions").innerHTML = "";
-          contents = '<a href="admin-product.html?id=" id="rUrl" class="btn btn-secondary me-auto">Edit</a>' + contents;
-          document.getElementById("productOptions").innerHTML = contents;
-          loadItems();
-        } else {
-          loadItems();
-        }
-      });
-
-        // loadItems();
+        firebase.auth().onAuthStateChanged((user) => {
+          if (user) {
+            let contents = document.getElementById("productOptions").innerHTML;
+            //document.getElementById("productOptions").innerHTML = "";
+            contents = '<a href="admin-product.html?id=" id="rUrl" class="btn btn-secondary me-auto">Edit</a>' + contents;
+            document.getElementById("productOptions").innerHTML = contents;
+            loadItems();
+          } else {
+            loadItems();
+          }
+        });
       });
 
       function loadItems(){
         let id = getVariable("id", window);
         selectById(db.collection("Product"), id).then((prod) => {
-          console.log(prod.data());
+          // console.log(prod.data());
           document.getElementById("name").innerHTML = prod.data().name;
           document.getElementById("bImg").src = prod.data().imgUrl;
           document.getElementById("rUrl").href += prod.id;
-          document.getElementById("price").innerHTML += prod.data().price;
+          document.getElementById("price").innerHTML += prod.data().price + "€";
           document.getElementById("description").innerHTML += prod.data().description;
-          document.getElementById("mor").innerHTML += prod.data().nomCategory + " - " + prod.data().nomManufacturer;
-        
+          document.getElementById("mor").innerHTML += prod.data().nomCategory + " - " + prod.data().nomManufacturer;        
         });
-
       }
 
+
+      function addToCart(){
+        firebase.auth().onAuthStateChanged((user) => {
+          if (user) {
+            // User is logged in
+            console.log("user id: " + firebase.auth().currentUser.uid);
+            console.log("product id: " + getVariable("id", window));
+
+            var dataU = {
+            idClient: firebase.auth().currentUser.uid,
+            idProduct: getVariable("id", window),
+            quantity: 1
+            };
+
+            console.log(dataU);  
+
+            add(db.collection("Basket"), dataU).then((data) => {
+              //window.location.href = removeFileFromUrl(window) + "/admin-product.html?id="+data.id;
+              console.log("added");
+            }).catch(() => {
+              alert("Error when uploading data");
+            });
+            
+          } else {
+            // User is not logged in
+            // get send to login page
+            window.location.href = "login.html";
+          }
+        });
+      }
     </script>
 
 </body>
