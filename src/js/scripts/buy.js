@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         event.preventDefault();
         deleteBoughtItems();
         // alert("Buy successful");
-        // window.location.href = "index.html";
+         window.location.href = "index.html";
     });
 
     // see if it is a single sale or from the cart
