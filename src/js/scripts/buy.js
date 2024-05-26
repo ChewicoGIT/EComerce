@@ -32,13 +32,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 function deleteBoughtItems(){
     const iterator = ProductsToBuy.keys();
-    var counter = 0;
+    let counter = 0;
 
     for(const key of iterator){
         console.log(`${key}: ${ProductsToBuy[key]}`);
         deleteById(db.collection("Basket"), ProductsToBuy[key]).then((delprod) =>{
             console.log(`${key}: ${ProductsToBuy[key]} Has Been deleted`);
-            counter+=1;
+            counter += 1;
             console.log("counter: " + counter);
             if (counter >= fruits.length){
                 window.location.href = "index.html";
@@ -56,7 +56,7 @@ function loadProducts(){
         let content = "";
         let totalPrice = 0;
         basket.forEach(items => {
-            console.log(items.id);
+            console.log("items.id: " + items.id);
             //console.log(items.data());
             //console.log("idclient: " + items.data().idClient);
             //console.log("idcurrent: " + firebase.auth().currentUser.uid);
