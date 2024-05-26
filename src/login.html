@@ -32,6 +32,7 @@
               <div class="card-body">
                 <h5 class="card-title text-center">Login</h5>
                 <form class="m3-5" id="myForm">
+
                   <div class="form-group mb-2">
                     <label for="email">Email address</label>
                     <br>
@@ -42,9 +43,13 @@
                     <label for="password">Password</label>
                     <input type="password" class="form-control" id="password" placeholder="Password">
                     <span id="passwordError" style="color: red;"></span>
-                  </div>     
-                  <button type="submit" class="btn btn-primary btn-block" >Login</button>
-                  <button onclick="window.location.href='sighnup.html'" class="btn btn-primary btn-block" >SignUp</button>
+                  </div>
+                  <button class="btn btn-secondary btn-sm px-1 pb-1" onclick="resetPassword()">Reset Password</button> 
+                  <div>
+                    <button type="submit" class="btn btn-primary btn-block"  >Login</button>
+                    <button onclick="window.location.href='sighnup.html'" class="btn btn-primary btn-block" >SignUp</button>
+                  </div>    
+
 
                   <span id="loginError" style="color: red;"></span>
                   <span id="loginSuccess" style="color: green;"></span>
@@ -105,10 +110,13 @@
             loginSuccess.textContent = 'Usuari autenticat';
             loginError.textContent = '';
             loginError.classList.remove('error'); 
+
+
+            console.log("user id: " + firebase.auth().currentUser.uid);
             
             // delay(2000);
 
-             window.location.href = "admin-product.html";
+            window.location.href = "index.html";
 
           })
           .catch(function(error) {
@@ -121,6 +129,38 @@
 
       });
 
+      function resetPassword(){
+        // Check if email input is empty
+        emailError.textContent = '';
+        loginSuccess.textContent = '';
+        loginError.textContent = '';
+        if (emailInput.value === '') {
+          emailError.textContent = 'Please enter your email.';
+          emailInput.classList.add('error');
+          isValid = false;
+        } else {
+          emailError.textContent = '';
+          emailInput.classList.remove('error'); 
+        }
+
+        firebase.auth().sendPasswordResetEmail(emailInput.value)
+        .then(() => {
+          // Password reset email sent!
+          // ..
+          loginSuccess.textContent = 'Email enviat';
+          passwordError.textContent = '';
+        })
+        .catch((error) => {
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          emailError.textContent = 'Error al enviar el mail';
+
+          // ..
+        });          
+        passwordError.textContent = '';
+
+
+      }
     </script>
 
 
