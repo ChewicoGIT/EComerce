@@ -97,6 +97,7 @@
             add(db.collection("Basket"), dataU).then((data) => {
               //window.location.href = removeFileFromUrl(window) + "/admin-product.html?id="+data.id;
               console.log("added");
+              window.location.href = "buy.html";
             }).catch(() => {
               alert("Error when uploading data");
             });
