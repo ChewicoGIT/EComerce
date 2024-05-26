@@ -1,9 +1,8 @@
-
-
-
 let itemsList;
 let envio = Math.floor(Math.random() * (25 - 0 + 1)) + 0;
 let posibleProductID;
+const ProductsToBuy = [];
+
 document.addEventListener("DOMContentLoaded", function(event) {
     posibleProductID = getVariable("id", window); // Get id of product for specific sale
     //console.log(posibleProductID);
@@ -13,8 +12,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
     const form = document.getElementById("buyerForm");
     form.addEventListener("submit", function(event) {
         event.preventDefault();
-        alert("Buy successful");
-        window.location.href = "index.html";
+        deleteBoughtItems();
+        // alert("Buy successful");
+        // window.location.href = "index.html";
     });
 
     // see if it is a single sale or from the cart
@@ -30,6 +30,19 @@ document.addEventListener("DOMContentLoaded", function(event) {
     
 });
 
+function deleteBoughtItems(){
+    const iterator = ProductsToBuy.keys();
+
+    for(const key of iterator){
+        console.log(`${key}: ${ProductsToBuy[key]}`);
+        deleteById(db.collection("Basket"), ProductsToBuy[key]).then((delprod) =>{
+            console.log(`${key}: ${ProductsToBuy[key]} Has Been deleted`);
+        }).catch(() => {
+            console.log(`${key}: ${ProductsToBuy[key]} Not deleted`);
+        });
+    }
+}
+
 
 
 function loadProducts(){
@@ -37,6 +50,7 @@ function loadProducts(){
         let content = "";
         let totalPrice = 0;
         basket.forEach(items => {
+            console.log(items.id);
             //console.log(items.data());
             //console.log("idclient: " + items.data().idClient);
             //console.log("idcurrent: " + firebase.auth().currentUser.uid);
@@ -67,6 +81,9 @@ function loadProducts(){
                     itemsList.innerHTML = content;
                     document.getElementById("subtotalPrice").innerHTML = totalPrice + "€";
                     document.getElementById("subtotalTotal").innerHTML = "<strong>" +  (totalPrice + envio) + "€" + "</strong>";
+
+                    // add each product that has been bought to delete from db and mark as bought
+                    ProductsToBuy.push(items.id);
                 });
             }
             
