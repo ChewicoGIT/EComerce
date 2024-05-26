@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         event.preventDefault();
         deleteBoughtItems();
         // alert("Buy successful");
-         window.location.href = "index.html";
+        //window.location.href = "index.html";
     });
 
     // see if it is a single sale or from the cart
@@ -32,11 +32,16 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 function deleteBoughtItems(){
     const iterator = ProductsToBuy.keys();
+    var counter = 0;
 
     for(const key of iterator){
         console.log(`${key}: ${ProductsToBuy[key]}`);
         deleteById(db.collection("Basket"), ProductsToBuy[key]).then((delprod) =>{
             console.log(`${key}: ${ProductsToBuy[key]} Has Been deleted`);
+            counter+=1;
+            if (counter >= fruits.length){
+                window.location.href = "index.html";
+            }
         }).catch(() => {
             console.log(`${key}: ${ProductsToBuy[key]} Not deleted`);
         });
