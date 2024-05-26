@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" style="min-height: 100%;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase-firestore.js"></script>
+
+    <script src="js/FirebaseAuth.js"></script>
+    <script src="js/products.js"></script>
+    <script src="js/createHeaderAndFooter.js"></script>
+    <script src="js/firestore.js"></script>
+    <script src="js/getVars.js"></script>
+    <script src="js/scripts/buy.js"></script>
+
+    <title>OmegaDl2</title>
+</head>
+<body style="min-height: 100vh;">
+  <div id="header-container"></div>
+
+
+    <!-- Codi per cada pagina -->
+    <div class="container mt-5" style="min-height: 100vh; display: flex; gap: 30px ">
+        <div id="billingInfo" style="min-width: 300px;">
+            <h2>Shipping</h2>
+            <form class="form-floating mt-3 mb-3" id="buyerForm">
+                <div class="row">
+                    <div class="form-floating mb-3 col-md-6">                    
+                        <input type="text" class="form-control" id="firstName" placeholder="First Name" name="firstName"   required>
+                        <label for="firstName">Nom:</label>
+                    </div>
+                    <div class="form-floating mb-3 col-md-6">
+                        <input type="text" class="form-control" id="lastName" placeholder="Last Name" name="lastName" required>
+                        <label for="lastName">Cognom:</label>
+                    </div>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input type="tel" class="form-control" id="phone" placeholder="+1" name="phone">
+                    <label for="phone">Telefon:</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <textarea class="form-control" id="address" rows="3" placeholder="Address" name="address" required></textarea>
+                    <label for="address">Direcció:</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="aptSuite" placeholder="Apt, Suite (Optional)" name="aptSuite">
+                    <label for="aptSuite">Pis, Porta (Opcional):</label>
+                </div>
+
+                <div class="row">
+                    <div class="form-floating mb-3 col-md-4">
+                        <input type="text" class="form-control" id="city" placeholder="City" name="city" required>
+                        <label for="city">Ciutat:</label>
+                    </div>
+                    <div class="form-floating mb-3 col-md-4">
+                        <input type="text" class="form-control" id="state" placeholder="State" name="state" required>
+                        <label for="state">Comunitat Autónoma:</label>
+                    </div>
+                    <div class="form-floating mb-3 col-md-4">
+                        <input type="text" class="form-control" id="zip" placeholder="ZIP Code" name="zip" required>
+                        <label for="zip">Codi ZIP:</label>
+                    </div>
+                </div>
+
+
+
+                <div class="form-floating mb-3">
+                    <select name="country" id="country" class="form-select" required>
+                        <option value="es">España</option>
+                        <option value="cat">Catalunya</option>
+                        <option value="fr">Francia 🤮</option>
+                        <option value="ca">Canada</option>
+                        <option value="uk">United Kingdom</option>
+                        <option value="us">United States</option>
+                        <option value="il">Israel</option>
+                        </select>
+                    <label for="country">País:</label>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Order</button>
+            </form>
+        </div>
+
+
+
+        <div id="cartItems" style="display: flex; flex-direction: column; min-width: 400px;">
+            
+            <dir id="cartTitle" style="display: inline-flex; justify-content:space-between;align-items:center;">
+                <h2><img src="imgs/cart.svg" style="height: 40px;"> Cart</h2>
+                <h6></h6>
+            </dir>
+
+            <dir class="" id="itemsList" style="display: flex;flex-direction:column;align-items:flex-start">
+                <div id="items" style="display: inline-flex; justify-content:space-between;align-items:center;">
+                    <img src="imgs/bc.jpeg" height="100px" style="aspect-ratio: 1;" />
+                    <dir id="itemInfo" height="100px">
+                        <p class="my-0 py-0">Product Name</p>
+                        <p>category - Manufacturer</p>
+                        <p>price</p>
+                    </dir>
+                </div>
+
+            </dir>
+
+            <dir id="infoCompra" class="pb-5" style="border-top: 2px solid lightgray; display: flex;flex-direction:column; ">
+                <dir id="subInfoCompra" style="display: inline-flex; justify-content:space-between;align-items:center;">
+                    <p  class="lead">Subtotal</p> 
+                    <p id="subtotalPrice" >PRECIO</p>
+                </dir>
+                <dir id="subInfoCompra" style="display: inline-flex; justify-content:space-between;align-items:center;">
+                    <p class="lead">Envio</p> 
+                    <p id="subtotalEnvio">Gratis</p>
+                </dir>
+                <dir id="subInfoCompra" style="display: inline-flex; justify-content:space-between;align-items:center;">
+                    <p class="lead"><strong>Total</strong></p> 
+                    <p id="subtotalTotal"><strong>PRECIO TOTAL</strong></p>
+                </dir>
+
+            </dir>
+            
+
+        </div>
+
+
+
+    </div>
+
+
+    <div id="footer-container"></div>
+
+
+
+
+</body>
+</html>
