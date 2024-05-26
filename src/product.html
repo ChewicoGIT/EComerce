@@ -36,8 +36,8 @@
                 <div class=" mt-5">
                   
                   <h5 class="my-2" id="mor"></h5>
-                  <div class="text-end">
-                    <a href="admin-product.html?id=" id="rUrl" class="btn btn-secondary me-auto">Edit(Admin)</a>
+                  <div class="text-end" id="productOptions">
+                    <a href="admin-product.html?id=" id="rUrl" class="" onclick="return false;" ></a> <!-- For some reason if i delete this it doesn't load the data  -->
                     <span class="my-2 text-end" id="price"></span>
                     <button class="btn btn-secondary text-end">Add to cart</button>
                     <button class="btn btn-success text-end" >Buy</button>
@@ -52,7 +52,21 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", function(event) {
-        loadItems();
+      
+
+      firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          let contents = document.getElementById("productOptions").innerHTML;
+          //document.getElementById("productOptions").innerHTML = "";
+          contents = '<a href="admin-product.html?id=" id="rUrl" class="btn btn-secondary me-auto">Edit</a>' + contents;
+          document.getElementById("productOptions").innerHTML = contents;
+          loadItems();
+        } else {
+          loadItems();
+        }
+      });
+
+        // loadItems();
       });
 
       function loadItems(){
