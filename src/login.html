@@ -32,6 +32,7 @@
               <div class="card-body">
                 <h5 class="card-title text-center">Login</h5>
                 <form class="m3-5" id="myForm">
+
                   <div class="form-group mb-2">
                     <label for="email">Email address</label>
                     <br>
@@ -105,10 +106,13 @@
             loginSuccess.textContent = 'Usuari autenticat';
             loginError.textContent = '';
             loginError.classList.remove('error'); 
+
+
+            console.log("user id: " + firebase.auth().currentUser.uid);
             
             // delay(2000);
 
-             window.location.href = "admin-product.html";
+            window.location.href = "admin-product.html";
 
           })
           .catch(function(error) {

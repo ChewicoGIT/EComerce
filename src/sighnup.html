@@ -30,6 +30,11 @@
               <div class="card-body">
                 <h5 class="card-title text-center">Signup</h5>
                 <form class="m3-5" id="myForm">
+                  <div class="form-group mb-2">
+                    <label for="name">Name</label>                    
+                    <input type="text" class="form-control" id="name" placeholder="Enter name">
+                    <span id="nameError" style="color: red;"></span>
+                  </div>
                   <div class="form-group">
                     <label for="email">Email address</label>
                     <input type="email" class="form-control" id="email" placeholder="introduce el email">
@@ -71,6 +76,8 @@
       const passwordError = document.getElementById('passwordError');
       const passwordcheckInput = document.getElementById('passwordcheck');
       const passwordcheckError = document.getElementById('passwordcheckError');
+      const nameInput = document.getElementById('name');
+      const nameError = document.getElementById('nameError');
 
 
       form.addEventListener('submit', (event) => {
@@ -80,6 +87,7 @@
         passwordError.textContent = '';
         passwordcheckError.textContent = '';
         sighnupSuccess.textContent = '';
+        nameError.textContent = '';
         let isValid = true;
 
         // Check if email input is empty
@@ -100,6 +108,16 @@
         } else {
           passwordError.textContent = '';
           passwordInput.classList.remove('error'); 
+        }
+
+        // Check if name input is empty
+        if (nameInput.value === '') {
+          nameError.textContent = 'Please add a name.';
+          nameInput.classList.add('error');
+          isValid = false;
+        } else {
+          nameError.textContent = '';
+          nameInput.classList.remove('error'); 
         }
 
         // Check if passwordcheckInput input is empty
@@ -124,17 +142,35 @@
           let email = document.getElementById("email").value;
           let password = document.getElementById("password").value;
           let passwordConfirm = document.getElementById("passwordcheck").value;
+          let name = document.getElementById("name").value;
+
+          console.log("email: " + email);
+          console.log("password: " + password);
+          console.log("passwordConfirm: " + passwordConfirm);
+          console.log("name: " + name);
+          console.log("data gathered correctly");
 
           if (email.length > 0 && email.indexOf("@") > 1 && password.length > 0) {
             auth.createUserWithEmailAndPassword(email, password)
-            .then(function() {			
-              sighnupSuccess.textContent = 'Usuari creat correctament';
-
-              window.location.href = "admin-product.html";
-							
+            .then(function() {
+              console.log("user id: " + firebase.auth().currentUser.uid);
+              console.log("name: " + name);
+              console.log("here 1");
+              
+              firebase.auth().currentUser.updateProfile({
+                displayName: name
+              }).then(() => {
+                console.log("Profile updated!");
+                console.log("User name: " + firebase.auth().currentUser.displayName);
+                sighnupSuccess.textContent = 'Usuari creat correctament';
+                window.location.href = "admin-product.html";
+              }).catch((error) => {
+                // An error occurred
+                // ...
+                sighnupError.textContent = "Error al afegir el nom"
+              });							
 						}).catch(function(error) {
-              sighnupError.textContent = "Error al intentar crear l'usuari"
-							
+              sighnupError.textContent = "Error al intentar crear l'usuari - Firebase"							
 						});
           }
         } else {
