@@ -39,7 +39,7 @@ function deleteBoughtItems(){
         deleteById(db.collection("Basket"), ProductsToBuy[key]).then((delprod) =>{
             console.log(`${key}: ${ProductsToBuy[key]} Has Been deleted`);
             counter+=1;
-            console.log("counter: "counter);
+            console.log("counter: " + counter);
             if (counter >= fruits.length){
                 window.location.href = "index.html";
             }
