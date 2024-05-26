@@ -28,22 +28,21 @@
         <h1 class="mt-5">Products</h1>
         <div class="mt-3">
             <div class="row" id="prodList">
-              <a class="text-decoration-none col-3 gx-2 gy-2">
-                <div class="card border-secondary">
-                    <div class="card-body">
-                        <img src="imgs/bc.jpeg" width="100%"/>
-                    </div>
-                    <div class="row">
-                        <div class="col-7">
-                            <div class="card-body"></div>
+                <a class="text-decoration-none col-3 gx-2 gy-2">
+                    <div class="card border-secondary">
+                        <div class="card-body">
+                            <img src="imgs/bc.jpeg" width="100%"/>
                         </div>
-                        <div class="col-5">
-                            <div class="card-body text-end"></div>
+                        <div class="row">
+                            <div class="col-7">
+                                <div class="card-body"></div>
+                            </div>
+                            <div class="col-5">
+                                <div class="card-body text-end"></div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </a>
-
+                </a>
             </div>
         </div>
     </div>
@@ -56,32 +55,50 @@
         document.addEventListener("DOMContentLoaded", function(event) {
               cardsContainer = document.getElementById('prodList');
               //addProduct("MegaBici", "La bici mas chula", "Mountain", "Amazon", 199900, "https:randomimage.com");
-              loadProducts();
-              
+            var searchTerm = "";
+            
+            // initial call to get all products
+            loadProducts(searchTerm);
+            
         });
 
+        // when a search parameter is imputed
+        // it shows the products that contain whatever has been imputed 
+        function UpdateProducts(){
+            var searchTerm = "";
+
+            searchTerm = document.getElementById("searchQuery").value;
+            //console.log("Search term:", searchTerm);
+              
+            loadProducts(searchTerm);         
+        }
+
         
-        function loadProducts(){
+        function loadProducts(searchTerm){
           selectAll(db.collection("Product")).then((items) => {
             let content = "";
             items.forEach(prod => {
-              console.log(prod.data());
-              content += 
-                `<a href="product.html?id=` + prod.id + `" class="text-decoration-none col-3 gx-2 gy-2">
-                    <div class="card border-secondary">
-                        <div class="card-body">
-                            <img src="` + prod.data().imgUrl + `"width="100% style="aspect-ratio: 1;" />
-                        </div>
-                        <div class="row">
-                            <div class="col-7">
-                                <div class="card-body">` + prod.data().name + `</div>
+
+              //console.log(prod.data());
+                // check if product is contains search query
+                if(prod.data().name.toLowerCase().includes(searchTerm.toLowerCase())){
+                    content += 
+                    `<a href="product.html?id=` + prod.id + `" class="text-decoration-none col-3 gx-2 gy-2">
+                        <div class="card border-secondary">
+                            <div class="card-body">
+                                <img src="` + prod.data().imgUrl + `"width="100% style="aspect-ratio: 1;" />
                             </div>
-                            <div class="col-5">
-                                <div class="card-body text-end">` + prod.data().price + `</div>
+                            <div class="row">
+                                <div class="col-7">
+                                    <div class="card-body">` + prod.data().name + `</div>
+                                </div>
+                                <div class="col-5">
+                                    <div class="card-body text-end">` + prod.data().price + `</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </a>`;
+                    </a>`;
+                }
           
                 cardsContainer.innerHTML = content;
             });
