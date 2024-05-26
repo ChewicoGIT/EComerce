@@ -5,6 +5,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
+function signOut(){
+  console.log("out");
+  firebase.auth().signOut();
+}
+
 // dynamical change login button for user name
 function userOrLogin(){    
   const loginButton = document.getElementById("user-or-login");
@@ -12,7 +17,7 @@ function userOrLogin(){
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
       // User is logged in
-      loginButton.innerHTML = '<p class="nav text-white me-3">' + "<em>Benvingut, </em> &nbsp;"+ " " + user.displayName + '</p>'; 
+      loginButton.innerHTML = '<p class="nav text-white me-3">' + "<em>Benvingut, </em> &nbsp;"+ " " + user.displayName + '&nbsp;<img src = "imgs/x-circle-fill.svg" onClick="signOut()"/></p> '; 
     } else {
       // User is not logged in
       loginButton.innerHTML = '<a class="nav-link active text-white me-3" href="login.html">Login</a>';
