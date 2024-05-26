@@ -1,3 +1,5 @@
+
+
 document.addEventListener('DOMContentLoaded', function() {
 
   // adds heather and foooter 
