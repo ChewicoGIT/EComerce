@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     const form = document.getElementById("buyerForm");
     form.addEventListener("submit", function(event) {
         event.preventDefault();
+        console.log("Form Submited");
         deleteBoughtItems();
         // alert("Buy successful");
         //window.location.href = "index.html";
@@ -40,7 +41,8 @@ function deleteBoughtItems(){
             console.log(`${key}: ${ProductsToBuy[key]} Has Been deleted`);
             counter += 1;
             console.log("counter: " + counter);
-            if (counter >= fruits.length){
+            console.log("counter === ProductsToBuy: "+ counter === ProductsToBuy.length);
+            if (counter === ProductsToBuy.length){
                 window.location.href = "index.html";
             }
         }).catch(() => {
